@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class Practice14GetFontMetricsView extends View {
@@ -44,12 +45,26 @@ public class Practice14GetFontMetricsView extends View {
         // 然后计算出文字的绘制位置，从而让文字上下居中
         // 这种居中算法的优点是，可以让不同的文字的 baseline 对齐
 
+        Paint.FontMetrics fontMetrics = paint2.getFontMetrics();
+        float offset = -(fontMetrics.ascent + fontMetrics.descent) / 2;
+        Log.e("Simple", "fontMetrics.ascent:" + fontMetrics.ascent + "  fontMetrics.descent:" + fontMetrics.descent);
+
         int middle = (top + bottom) / 2;
-        canvas.drawText(texts[0], 100, middle, paint2);
-        canvas.drawText(texts[1], 200, middle, paint2);
-        canvas.drawText(texts[2], 300, middle, paint2);
-        canvas.drawText(texts[3], 400, middle, paint2);
-        canvas.drawText(texts[4], 500, middle, paint2);
-        canvas.drawText(texts[5], 600, middle, paint2);
+        canvas.drawText(texts[0], 100, middle + offset, paint2);
+        canvas.drawText(texts[1], 200, middle + offset, paint2);
+        canvas.drawText(texts[2], 300, middle + offset, paint2);
+        canvas.drawText(texts[3], 400, middle + offset, paint2);
+        canvas.drawText(texts[4], 500, middle + offset, paint2);
+        canvas.drawText(texts[5], 600, middle + offset, paint2);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.YELLOW);
+        canvas.drawLine(0, fontMetrics.top, 100, fontMetrics.top, paint);
+        paint.setColor(Color.RED);
+        canvas.drawLine(0, fontMetrics.ascent, 100, fontMetrics.ascent, paint);
+        paint.setColor(Color.GREEN);
+        canvas.drawLine(0, fontMetrics.descent, 100, fontMetrics.descent, paint);
+        paint.setColor(Color.BLUE);
+        canvas.drawLine(0, fontMetrics.bottom, 100, fontMetrics.bottom, paint);
     }
 }

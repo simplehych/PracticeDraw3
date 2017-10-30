@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class Practice13GetTextBoundsView extends View {
@@ -50,11 +53,24 @@ public class Practice13GetTextBoundsView extends View {
         // 这种居中算法的优点是，可以让文字精准地居中，分毫不差
 
         int middle = (top + bottom) / 2;
-        canvas.drawText(text1, 100, middle, paint2);
+        Rect rect = new Rect();
+        paint2.getTextBounds(text1, 0, text1.length(), rect);
+        Log.e("Simple", "rect.top:" + rect.top + "  rect.bottom:" + rect.bottom + " rect.left:" + rect.left + " rect.right:" + rect.right);
+        canvas.drawText(text1, 100, middle - (rect.top + rect.bottom) / 2, paint2);
         canvas.drawText(text2, 200, middle, paint2);
         canvas.drawText(text3, 300, middle, paint2);
         canvas.drawText(text4, 400, middle, paint2);
         canvas.drawText(text5, 500, middle, paint2);
         canvas.drawText(text6, 600, middle, paint2);
+
+        /**
+         * 默认获得到的文字rect.bottom=0,即左角看不到
+         */
+        rect.top = rect.top + 200;
+        rect.bottom = rect.bottom + 200;
+        rect.left = rect.left + 200;
+        rect.right = rect.right + 200;
+
+        canvas.drawRect(rect, paint1);
     }
 }
